@@ -1,0 +1,71 @@
+     width  depth
+wire [9:0]a[255:0];
+reg b;
+integer a;//32 bit 
+string c;
+real e;
+   
+1B = 8 bits  
+1Kb= 1024 bits 
+
+reg [0:7]mem[0:1023];//memory
+
+1 word = 32 bits = a[0:31]
+
+// code  on 2x1 mux
+// via behavioural
+
+ module mux2x1(input a,b,s, output f)
+
+  wire a,b;
+  wire s;
+  reg f;
+   
+  always@(*)
+    begin  
+     case(s)
+          0:f = a;
+          1:f = b;
+     endcase
+    end
+ 
+ endmodule
+
+// via data flow
+// when using countinous assignment statement the lhs must be wire and rhs can be wire/reg
+
+  module mux2x1(input a,b,s, output f)
+
+  wire a,b;
+  wire s;
+  wire f;
+
+  assign f = s?a:b;
+   
+  endmodule  
+
+// tb for 2x1 mux
+
+  module tb,
+   
+   reg a,b,s;
+   wire f;
+  
+   mux2x1 dut(.a(a), .b(b), .s(s), .f(f));
+
+   initial 
+     begin
+       s=0;
+       a = 0;
+       b = 1;
+       #1
+       s=1;
+       a = 1;
+       b = 0;
+     end  
+ 
+   initial 
+   $monitor("a=%0d b=%0d s=%0d f=%0d", a,b,s,f);
+
+  endmodule
+
